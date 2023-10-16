@@ -9,6 +9,10 @@ public class Cycle {
     private int agreeCount;
     private int foldedCount;
     private int playerCount;
+    private boolean folded;
+
+    private String fold;
+    private String raise;
 
     /** 4 cycles happen per round */
     public Cycle(int foldedCount, int playerCount, Player[] players) {
@@ -33,20 +37,24 @@ public class Cycle {
             return 0;
         }
         System.out.print(p.toString() + " would you like to fold? (y/n): ");
-        if (scanner.nextLine().toLowerCase() == "n") {
+        
+        fold = scanner.next().toLowerCase();
+
+        if (fold.equals("n")) {
             System.out.println("test");
             System.out.print(p.toString() + " would you like to raise? (y/n): ");
-            if (scanner.nextLine().toLowerCase() == "n") {
+            raise = scanner.next().toLowerCase();
+            if (raise.equals("n")) {
                 agreeCount++;
                 return p.call(callVal);
-            } else if (scanner.nextLine().toLowerCase() == "y") {
+            } else if (raise.equals("y")) {
                 agreeCount = 1;
                 return p.requestBet();
             } else {
                 System.out.println("Invalid Input");
                 return playerTurn(p);
             }
-        } else if (scanner.nextLine().toLowerCase() == "y") {
+        } else if (fold.equals("y")) {
             p.folded = true;
             foldedCount++;
             return 0;

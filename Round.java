@@ -9,6 +9,7 @@ public class Round {
 
     /** The only thing that should be staying the same between rounds is money, everything else resets */
     public Round() {
+        resetFolded();
         potVal = 0;
         for (Player player : dealer.players) {
             foldedCount += player.folded();
@@ -29,6 +30,12 @@ public class Round {
             }
             foldedCount = currentCycle.getFoldedCount();
             System.out.println("----------------------------------------------------------------------");
+        }
+    }
+
+    private void resetFolded() {
+        for (Player player : dealer.players) {
+            player.folded = false;
         }
     }
 }

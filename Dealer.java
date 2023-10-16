@@ -10,14 +10,24 @@ public class Dealer {
 
     public Dealer() {
         scanner = new Scanner(System.in);
-        System.out.print("How many people are playing: ");
-        try {
-            numberOfPlayers = scanner.nextInt();
-            // System.out.println(numberOfPlayers);
-        } catch (Exception e) {
-            System.out.println("Dealer.Dealer():31\tError: Invalid Input");
-            System.exit(1);
+        numberOfPlayers = getPlayers();
+
+        if (numberOfPlayers < 2 || numberOfPlayers > 8) {
+            System.out.println("Dealer.Dealer():31\tError: Invalid Number of Players");
+            numberOfPlayers = getPlayers();
         }
+        // System.out.print("How many people are playing: ");
+        // try {
+        //     numberOfPlayers = scanner.nextInt();
+        //     // System.out.println(numberOfPlayers);
+        // } catch (Exception e) {
+        //     System.out.println("Dealer.Dealer():31\tError: Invalid Input");
+        //     System.exit(1);
+        // }
+
+        // if (numberOfPlayers < 2 || numberOfPlayers > 8) {
+        //     System.out.println("Dealer.Dealer():31\tError: Invalid Number of Players");
+        // }
 
         players = new Player[numberOfPlayers];
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -56,6 +66,18 @@ public class Dealer {
 
     public int getNumberOfPlayers() {
         return numberOfPlayers;
+    }
+
+    public int getPlayers() {
+        int x;
+        System.out.print("How many people are playing: ");
+        try {
+            x = scanner.nextInt();
+        } catch (Exception e) {
+            System.out.println("Dealer.Dealer():31\tError: Invalid Input");
+            x = getPlayers();
+        }
+        return x;
     }
 
     public void showCards(int cycleNum) {
