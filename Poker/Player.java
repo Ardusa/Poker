@@ -61,4 +61,10 @@ public class Player {
             return 0;
         }
     }
+
+    public void showCards() {
+        System.out.println(name + ", your cards are: ");
+        System.out.println(hand.cards[0].toString());
+        System.out.println(hand.cards[1].toString());
+    }
 }

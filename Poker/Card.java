@@ -9,25 +9,23 @@ public class Card {
     private boolean isFace;
     // private String[] suits = { "Hearts", "Diamonds", "Clubs", "Spades" };
     public enum Suit {
-        HEARTS,
-        DIAMONDS,
-        CLUBS,
         SPADES,
-        NONE
+        CLUBS,
+        HEARTS,
+        DIAMONDS
     }
 
     public enum Face {
         JACK,
         QUEEN,
         KING,
-        ACE,
-        NONE
+        ACE
     }
 
     // private EnumSet<Suit> suits = EnumSet.of(Suit.HEARTS, Suit.DIAMONDS, Suit.CLUBS, Suit.SPADES);
 
     /** Specific Card */
-    private Card(Suit suit, int number) {
+    public Card(Suit suit, int number) {
         this.suit = suit;
         this.number = number;
         if (number > 10) {
@@ -51,7 +49,7 @@ public class Card {
                     break;
             }
         } else {
-            face = Face.NONE;
+            // face = Face.NONE;
             isFace = false;
         }
     }
@@ -97,7 +95,9 @@ public class Card {
             case 4:
                 return Suit.SPADES;
             default:
-                return Suit.NONE;
+                return null;
+            // default:
+            //     return Suit.NONE;
         }
     }
 }

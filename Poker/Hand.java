@@ -6,7 +6,7 @@ public class Hand {
 
     public Hand() {
         for (int i = 0; i < cardsInHand; i++) {
-            cards[i] = new Card();
+            cards[i] = Game.deck.draw();
         }
     }
 

@@ -40,11 +40,11 @@ public class Dealer {
     public void deal() {
         for (int j = 0; j < numberOfPlayers; j++) {
             for (int i = 0; i < 2; i++) {
-                players[j].getHand().cards[i] = new Card();
+                players[j].getHand().cards[i] = Game.deck.draw();
             }
         }
         for (int i = 0; i < cardsInHand; i++) {
-            cards[i] = new Card();
+            cards[i] = Game.deck.draw();
         }
     }
 

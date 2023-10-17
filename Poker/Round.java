@@ -20,7 +20,7 @@ public class Round {
         for (int i = 0; i < 4; i++) {
             currentCycle = new Cycle(foldedCount, playerCount, dealer.players);
             dealer.showCards(i);
-            System.out.println("----------------------------------------------------------------------");
+            System.out.println();
             potVal += currentCycle.getRoundPot();
             System.out.println("The pot is $" + potVal);
             for (Player player : dealer.players) {
@@ -29,6 +29,7 @@ public class Round {
                 }
             }
             foldedCount = currentCycle.getFoldedCount();
+            System.out.println();
             System.out.println("----------------------------------------------------------------------");
         }
     }

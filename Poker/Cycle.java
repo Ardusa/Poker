@@ -9,7 +9,6 @@ public class Cycle {
     private int agreeCount;
     private int foldedCount;
     private int playerCount;
-    private boolean folded;
 
     private String fold;
     private String raise;
@@ -18,6 +17,7 @@ public class Cycle {
     public Cycle(int foldedCount, int playerCount, Player[] players) {
         scanner = new Scanner(System.in);
         potVal = 0;
+        callVal = 10;
         agreeCount = 0;
         this.foldedCount = foldedCount;
         this.playerCount = playerCount;
@@ -36,12 +36,15 @@ public class Cycle {
         if (p.folded) {
             return 0;
         }
+
+        p.showCards();
+
         System.out.print(p.toString() + " would you like to fold? (y/n): ");
         
         fold = scanner.next().toLowerCase();
 
         if (fold.equals("n")) {
-            System.out.println("test");
+            // System.out.println("test");
             System.out.print(p.toString() + " would you like to raise? (y/n): ");
             raise = scanner.next().toLowerCase();
             if (raise.equals("n")) {
