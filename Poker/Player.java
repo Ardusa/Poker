@@ -11,6 +11,7 @@ public class Player {
     private String name;
     public boolean folded;
     private String password;
+    private int wins;
 
     public Player(String name) {
         this.name = name;
@@ -141,5 +142,14 @@ public class Player {
             pass += character;
         }
         return pass;
+    }
+
+    public void win(double pot) {
+        wins++;
+        money += pot;
+    }
+
+    public int getWins() {
+        return wins;
     }
 }

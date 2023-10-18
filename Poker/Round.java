@@ -14,16 +14,16 @@ public class Round {
         for (Player player : dealer.players) {
             foldedCount += player.folded();
         }
-        playerCount = dealer.getNumberOfPlayers();
+        playerCount = Game.getInstance().getNumberOfPlayers();
 
         dealer.deal();
         for (int i = 0; i < 4; i++) {
-            currentCycle = new Cycle(foldedCount, playerCount, dealer.players);
+            currentCycle = new Cycle(foldedCount, playerCount, Game.players);
             dealer.showCards(i);
             System.out.println();
             potVal += currentCycle.getRoundPot();
             System.out.println("The pot is $" + potVal);
-            for (Player player : dealer.players) {
+            for (Player player : Game.players) {
                 if (player.folded = false) {
                     System.out.println(player.toString() + " has $" + player.getMoney());
                 }
@@ -35,7 +35,7 @@ public class Round {
     }
 
     private void resetFolded() {
-        for (Player player : dealer.players) {
+        for (Player player : Game.players) {
             player.folded = false;
         }
     }

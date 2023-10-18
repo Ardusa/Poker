@@ -1,33 +1,16 @@
 package Poker;
-import java.util.Scanner;
 
 public class Dealer {
-    private Scanner scanner;
-    private int numberOfPlayers;
-    public Player[] players;
     public Card[] cards = new Card[5];
     private final int dealerCards = 5;
+    public Player[] players;
 
     public Dealer() {
-        scanner = new Scanner(System.in);
-        numberOfPlayers = getPlayers();
-
-        if (numberOfPlayers < 2 || numberOfPlayers > 8) {
-            System.out.println("Dealer.Dealer():31\tError: Invalid Number of Players");
-            numberOfPlayers = getPlayers();
-        }
-
-        players = new Player[numberOfPlayers];
-        for (int i = 0; i < numberOfPlayers; i++) {
-            System.out.print("Enter player #" + (i + 1) + " name: ");
-            String name = scanner.next();
-            players[i] = new Player(name);
-            players[i].setPassword();
-        }
+        players = Game.players;
     }
 
     public void deal() {
-        for (int j = 0; j < numberOfPlayers; j++) {
+        for (int j = 0; j < Game.getInstance().getNumberOfPlayers(); j++) {
             for (int i = 0; i < 2; i++) {
                 players[j].getHand().cards[i] = Game.deck.draw();
             }
@@ -53,21 +36,7 @@ public class Dealer {
         return cards[cardNumber];
     }
 
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
-    }
 
-    public int getPlayers() {
-        int x;
-        System.out.print("How many people are playing: ");
-        try {
-            x = scanner.nextInt();
-        } catch (Exception e) {
-            System.out.println("Dealer.Dealer():31\tError: Invalid Input");
-            x = getPlayers();
-        }
-        return x;
-    }
 
     public void showCards(int cycleNum) {
         cycleNum += 1;
