@@ -78,6 +78,7 @@ public class Player {
         System.out.println(name + ", you have $" + money);
     }
 
+    /** This is to create a password and will overwrite the current password if called */
     public void setPassword() {
         char[] password = null;
         try {
@@ -89,6 +90,9 @@ public class Player {
         this.password= parsePassword(password);
     }
 
+    /** 
+     * @deprecated Use getAndCheckPW() instead
+     */
     public String getPassword() {
         String pw = null;
         try {
@@ -100,6 +104,7 @@ public class Player {
         return pw;
     }
 
+    /** Use this most of the time for passwords, will get, check and repeat function until correct password is given */
     public void getAndCheckPW() {
         String pwInput;
         char[] pw = null;
@@ -117,17 +122,20 @@ public class Player {
         }
     }
 
-    /** True if password matches, false if password is wrong */
-    // public boolean checkPassword(char[] password) {
-    //     // System.out.print(password.equals(password));
-    //     return (password.equals(this.password));
-    // }
+    /** True if password matches, false if password is wrong 
+     * @deprecated Use getAndCheckPW() instead
+    */
+    public boolean checkPassword(char[] password) {
+        // System.out.print(password.equals(password));
+        return (this.password.equals(parsePassword(password)));
+    }
 
     public void printPassword() {
         System.out.println(password);
     }
 
-    public String parsePassword(char[] pw) {
+    /** Returns string of password */
+    private String parsePassword(char[] pw) {
         String pass = "";
         for (char character : pw) {
             pass += character;
