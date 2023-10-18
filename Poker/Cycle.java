@@ -24,10 +24,21 @@ public class Cycle {
 
         do {
             for (int i = 0; i < playerCount; i++) {
+                System.out.println("----------------------------------------");
+                System.out.println(players[i].toString() + "'s Turn");
+                System.console().flush();
                 if (turnsRemaining() == 0) {
                     break;
                 }
+
+                // do {
+                //     pw = players[i].getPassword();
+                // } while (players[i].checkPassword(pw));
+
+                players[i].getAndCheckPW();
+
                 potVal += playerTurn(players[i]);
+                System.out.println();
             }
         } while (turnsRemaining() > 0);
     }
@@ -39,20 +50,22 @@ public class Cycle {
 
         p.showCards();
 
-        System.out.print(p.toString() + " would you like to fold? (y/n): ");
-        
+        System.out.print("Would you like to fold? (y/n): ");
         fold = scanner.next().toLowerCase();
 
         if (fold.equals("n")) {
-            // System.out.println("test");
+            System.out.println("Price to call is $" + callVal);
             System.out.print(p.toString() + " would you like to raise? (y/n): ");
             raise = scanner.next().toLowerCase();
+            System.out.println();
             if (raise.equals("n")) {
                 agreeCount++;
+                System.out.println(p.toString() + " called $" + callVal);
                 return p.call(callVal);
             } else if (raise.equals("y")) {
                 agreeCount = 1;
-                return p.requestBet();
+                callVal = p.requestBet();
+                return callVal;
             } else {
                 System.out.println("Invalid Input");
                 return playerTurn(p);

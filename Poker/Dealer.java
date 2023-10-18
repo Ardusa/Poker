@@ -6,7 +6,7 @@ public class Dealer {
     private int numberOfPlayers;
     public Player[] players;
     public Card[] cards = new Card[5];
-    private final int cardsInHand = 5;
+    private final int dealerCards = 5;
 
     public Dealer() {
         scanner = new Scanner(System.in);
@@ -16,24 +16,13 @@ public class Dealer {
             System.out.println("Dealer.Dealer():31\tError: Invalid Number of Players");
             numberOfPlayers = getPlayers();
         }
-        // System.out.print("How many people are playing: ");
-        // try {
-        //     numberOfPlayers = scanner.nextInt();
-        //     // System.out.println(numberOfPlayers);
-        // } catch (Exception e) {
-        //     System.out.println("Dealer.Dealer():31\tError: Invalid Input");
-        //     System.exit(1);
-        // }
-
-        // if (numberOfPlayers < 2 || numberOfPlayers > 8) {
-        //     System.out.println("Dealer.Dealer():31\tError: Invalid Number of Players");
-        // }
 
         players = new Player[numberOfPlayers];
         for (int i = 0; i < numberOfPlayers; i++) {
             System.out.print("Enter player #" + (i + 1) + " name: ");
             String name = scanner.next();
             players[i] = new Player(name);
+            players[i].setPassword();
         }
     }
 
@@ -43,7 +32,7 @@ public class Dealer {
                 players[j].getHand().cards[i] = Game.deck.draw();
             }
         }
-        for (int i = 0; i < cardsInHand; i++) {
+        for (int i = 0; i < dealerCards; i++) {
             cards[i] = Game.deck.draw();
         }
     }
@@ -84,13 +73,11 @@ public class Dealer {
         cycleNum += 1;
 
         System.out.println("----------------------------------------------------------------------");
-        System.out.println();
         if (cycleNum == 1) {
             System.out.println("The flop is: ");
+            System.out.println();
             for (int i = 0; i < 3; i++) {
-                System.out.println();
                 System.out.println(cards[i].toString());
-                System.out.println();
             }
         } else if (cycleNum == 2) {
             System.out.println("The turn is: ");
