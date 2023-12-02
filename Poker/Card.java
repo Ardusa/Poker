@@ -44,7 +44,7 @@ public class Card {
                     face = Face.ACE;
                     break;
                 default:
-                    System.out.println("Card.Card():31\tError: Invalid Card Number");
+                    System.out.println("Card.Card:31\tError: Invalid Card Number");
                     System.exit(1);
                     break;
             }
@@ -96,8 +96,6 @@ public class Card {
                 return Suit.SPADES;
             default:
                 return null;
-            // default:
-            //     return Suit.NONE;
         }
     }
 }

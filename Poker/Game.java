@@ -1,6 +1,7 @@
 package Poker;
 
 import java.util.Scanner;
+import java.util.Vector;
 
 public class Game {
     public static Deck deck;
@@ -8,7 +9,9 @@ public class Game {
     private static int numberOfPlayers;
     public static Player[] players;
     private static Game instance;
-    private static final int rounds = 1;
+    public boolean testMode;
+    private static int i = 0;
+
 
     public static Game getInstance() {
         if (instance == null) {
@@ -19,25 +22,52 @@ public class Game {
 
 
     public static void main(String[] args) {
+        clearScreen();
         deck = Deck.getInstance();
         scanner = new Scanner(System.in);
         numberOfPlayers = getPlayers();
 
-        if (numberOfPlayers < 2 || numberOfPlayers > 8) {
-            System.out.println("Dealer.Dealer():31\tError: Invalid Number of Players");
+        if (numberOfPlayers < 0 || numberOfPlayers > 8) {
+            System.out.println("Dealer.Dealer:31\tError: Invalid Number of Players");
             numberOfPlayers = getPlayers();
         }
 
-        players = new Player[numberOfPlayers];
-        for (int i = 0; i < numberOfPlayers; i++) {
-            System.out.print("Enter player #" + (i + 1) + " name: ");
-            String name = scanner.next();
-            players[i] = new Player(name);
-            players[i].setPassword();
+        if (numberOfPlayers == 1) {
+            // System.out.println(Constants.blankLine);
+            System.out.println();
+            System.out.println("Test mode");
+            System.out.println("Everyones passwords is '1'");
+            // System.out.println(Constants.blankLine);
+            numberOfPlayers = 3;
+            players = new Player[numberOfPlayers];
+            players[0] = new Player("Player 1");
+            players[0].setPassword("1");
+            players[1] = new Player("Player 2");
+            players[1].setPassword("1");
+            players[2] = new Player("Player 3");
+            players[2].setPassword("1");
+        } else {
+            players = new Player[numberOfPlayers];
+            for (int i = 0; i < numberOfPlayers; i++) {
+                System.out.print("Enter player #" + (i + 1) + " name: ");
+                String name = scanner.next();
+                players[i] = new Player(name);
+                players[i].setPassword();
+            }
         }
 
-        for (int i = 0; i < rounds; i++) {
-            new Round();
+
+        while (true) {
+            System.out.println();
+            System.out.println(Constants.blankLine);
+            System.out.print("Ready to deal? (press any key other than 'n' to keep playing): ");
+            String input = scanner.next().toLowerCase();
+            System.out.println();
+            if (input.equals("n")) {
+                break;
+            }
+            i++;
+            new Round(i);
         }
     }
 
@@ -51,9 +81,23 @@ public class Game {
         try {
             x = scanner.nextInt();
         } catch (Exception e) {
-            System.out.println("Dealer.Dealer():31\tError: Invalid Input");
+            System.out.println("Dealer.Dealer:31\tError: Invalid Input");
             x = getPlayers();
         }
         return x;
+    }
+
+    public Player whoWon() {
+        Vector<Hand> hands = new Vector<Hand>();
+        // Hand[] hands = new Hand[Game.getInstance().getNumberOfPlayers()];
+        for (Player players : players) {
+            hands.add(players.getHand());
+        }
+        return null;
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }

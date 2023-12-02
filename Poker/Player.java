@@ -7,16 +7,19 @@ public class Player {
     private Console console;
     private Scanner scanner;
     private Hand hand;
-    private int money;
+    private double money;
     private String name;
     public boolean folded;
     private String password;
     private int wins;
+    public double personalPotValue;
+    public Round.blind blind;
+    private boolean allIn;
 
     public Player(String name) {
         this.name = name;
         hand = new Hand();
-        money = 1000;
+        money = Constants.startingMoney;
         scanner = new Scanner(System.in);
         console = System.console();
     }
@@ -30,11 +33,11 @@ public class Player {
         return hand;
     }
 
-    public void setMoney(int money) {
+    public void setMoney(double money) {
         this.money = money;
     }
 
-    public int getMoney() {
+    public double getMoney() {
         return money;
     }
 
@@ -43,7 +46,7 @@ public class Player {
         System.out.print("How much would you like to bet: $");
         betValue = scanner.nextDouble();
         if (betValue > money) {
-            System.out.println("You don't have that much money!\n You have $" + money + "\n");
+            System.out.println("You don't have that much money!");
             betValue = requestBet();
         } else if (betValue < 0) {
             System.out.println("You can't bet negative money!\n");
@@ -51,12 +54,19 @@ public class Player {
         } else {
             money -= betValue;
         }
+        personalPotValue += betValue;
+        if (money == 0) {
+            allIn();
+        }
         return betValue;
     }
 
-    public double call(double callValue) {
+    public void call(double callValue) {
         money -= callValue;
-        return callValue;
+        personalPotValue += callValue;
+        if (money == 0) {
+            allIn();
+        }
     }
 
     public int folded() {
@@ -88,7 +98,11 @@ public class Player {
             System.out.println("Invalid Input");
             setPassword();
         }
-        this.password= parsePassword(password);
+        this.password = parsePassword(password);
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /** 
@@ -152,4 +166,26 @@ public class Player {
     public int getWins() {
         return wins;
     }
+
+    public void setBlind(Round.blind blind) {
+        this.blind = blind;
+    }
+
+    public Round.blind getBlind() {
+        return blind;
+    }
+
+    public void allIn() {
+        allIn = true;
+        System.out.println("You are all in!");
+    }
+
+    public boolean isAllIn() {
+        return allIn;
+    }
+
+    // public void setHandValue(Card.Hand handValue1, Card.Hand handValue2) {
+    //     this.handValue1 = handValue1;
+    //     this.handValue2 = handValue2;
+    // }
 }

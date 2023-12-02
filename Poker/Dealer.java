@@ -2,8 +2,8 @@ package Poker;
 
 public class Dealer {
     public Card[] cards = new Card[5];
-    private final int dealerCards = 5;
     public Player[] players;
+    private static Hand dealerHand;
 
     public Dealer() {
         players = Game.players;
@@ -15,9 +15,10 @@ public class Dealer {
                 players[j].getHand().cards[i] = Game.deck.draw();
             }
         }
-        for (int i = 0; i < dealerCards; i++) {
+        for (int i = 0; i < Constants.dealerCards; i++) {
             cards[i] = Game.deck.draw();
         }
+        dealerHand = new Hand(cards);
     }
 
     public Card[] getFlop() {
@@ -30,7 +31,7 @@ public class Dealer {
 
     public Card getCard(int cardNumber) {
         if (cardNumber < 1 || cardNumber > 5) {
-            System.out.println("Dealer.getCard():31\tError: Invalid Card Number");
+            System.out.println("Dealer.getCard:31\tError: Invalid Card Number");
             System.exit(1);
         }
         return cards[cardNumber];
@@ -41,7 +42,7 @@ public class Dealer {
     public void showCards(int cycleNum) {
         cycleNum += 1;
 
-        System.out.println("----------------------------------------------------------------------");
+        System.out.println(Constants.blankLine);
         if (cycleNum == 1) {
             System.out.println("The flop is: ");
             System.out.println();
@@ -55,12 +56,16 @@ public class Dealer {
             System.out.println("The river is: ");
             System.out.println(cards[4].toString());
         } else {
-            System.out.println("Dealer.showCards():31\tError: Invalid Cycle Number");
+            System.out.println("Dealer.showCards:31\tError: Invalid Cycle Number");
             System.exit(1);
         }
         System.out.println();
-        System.out.println("----------------------------------------------------------------------");
+        System.out.println(Constants.blankLine);
 
+    }
+
+    public static Hand getHand() {
+        return dealerHand;
     }
 
 }
