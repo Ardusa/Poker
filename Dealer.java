@@ -1,18 +1,24 @@
-package Poker;
-
-public class Dealer {
+public class Dealer extends Player {
+    private static Dealer dealer;
     public Card[] cards = new Card[5];
     public Player[] players;
     private static Hand dealerHand;
 
+    public static Dealer getInstance() {
+        if (dealer == null) {
+            dealer = new Dealer();
+        }
+        return dealer;
+    }
+
     public Dealer() {
-        players = Game.players;
+        super("Dealer");
     }
 
     public void deal() {
         for (int j = 0; j < Game.getInstance().getNumberOfPlayers(); j++) {
             for (int i = 0; i < 2; i++) {
-                players[j].getHand().cards[i] = Game.deck.draw();
+                Game.players[j].getHand().cards[i] = Game.deck.draw();
             }
         }
         for (int i = 0; i < Constants.dealerCards; i++) {
@@ -61,11 +67,9 @@ public class Dealer {
         }
         System.out.println();
         System.out.println(Constants.blankLine);
-
     }
 
-    public static Hand getHand() {
+    public Hand getDealerHand() {
         return dealerHand;
     }
-
 }

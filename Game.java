@@ -1,5 +1,3 @@
-package Poker;
-
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -33,19 +31,22 @@ public class Game {
         }
 
         if (numberOfPlayers == 1) {
-            // System.out.println(Constants.blankLine);
             System.out.println();
             System.out.println("Test mode");
             System.out.println("Everyones passwords is '1'");
-            // System.out.println(Constants.blankLine);
-            numberOfPlayers = 3;
+            numberOfPlayers = 4;
             players = new Player[numberOfPlayers];
-            players[0] = new Player("Player 1");
-            players[0].setPassword("1");
-            players[1] = new Player("Player 2");
-            players[1].setPassword("1");
-            players[2] = new Player("Player 3");
-            players[2].setPassword("1");
+            for (int i = 0; i < numberOfPlayers; i++) {
+                players[i] = new Player("Player " + (i + 1));
+                players[i].setPassword("1");
+            }
+
+            // players[0] = new Player("Player 1");
+            // players[0].setPassword("1");
+            // players[1] = new Player("Player 2");
+            // players[1].setPassword("1");
+            // players[2] = new Player("Player 3");
+            // players[2].setPassword("1");
         } else {
             players = new Player[numberOfPlayers];
             for (int i = 0; i < numberOfPlayers; i++) {
@@ -64,10 +65,11 @@ public class Game {
             String input = scanner.next().toLowerCase();
             System.out.println();
             if (input.equals("n")) {
+                // TODO: Establish a winner
                 break;
             }
-            i++;
             new Round(i);
+            i++;
         }
     }
 
@@ -81,7 +83,7 @@ public class Game {
         try {
             x = scanner.nextInt();
         } catch (Exception e) {
-            System.out.println("Dealer.Dealer:31\tError: Invalid Input");
+            System.out.println("Dealer.Dealer:31\tError: Too many people");
             x = getPlayers();
         }
         return x;

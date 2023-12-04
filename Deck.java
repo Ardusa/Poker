@@ -1,4 +1,3 @@
-package Poker;
 import java.util.Vector;
 
 public class Deck {

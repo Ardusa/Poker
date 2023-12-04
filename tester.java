@@ -1,10 +1,8 @@
-package Poker;
-
 public class tester {
     public static void main(String[] args) {
-        System.out.println(4%4);
-        System.out.println(3%4);
-        System.out.println(2%4);
-        System.out.println(1%4); 
+        String word = "Wingardium Leviosa";
+        for (int i = 0; i < word.length(); i += 2) {
+            System.out.print(word.substring(i, i+1));
+        }
     }
 }

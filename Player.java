@@ -1,5 +1,3 @@
-package Poker;
-
 import java.io.Console;
 import java.util.Scanner;
 
@@ -15,10 +13,15 @@ public class Player {
     public double personalPotValue;
     public Round.blind blind;
     private boolean allIn;
+    public boolean called;
 
     public Player(String name) {
         this.name = name;
         hand = new Hand();
+
+        for (Card card : hand.cards) {
+            card.setPlayerHash(this.hashCode());
+        }
         money = Constants.startingMoney;
         scanner = new Scanner(System.in);
         console = System.console();
@@ -61,12 +64,14 @@ public class Player {
         return betValue;
     }
 
-    public void call(double callValue) {
-        money -= callValue;
-        personalPotValue += callValue;
+    public double call(double callValue) {
+        double returnVal = callValue - personalPotValue;
+        money -= returnVal;
+        personalPotValue = callValue;
         if (money == 0) {
             allIn();
         }
+        return returnVal;
     }
 
     public int folded() {

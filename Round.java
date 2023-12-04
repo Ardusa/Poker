@@ -1,7 +1,5 @@
-package Poker;
-
 public class Round {
-    private Dealer dealer = new Dealer();
+    private Dealer dealer = Dealer.getInstance();
     private double potVal;
     private int foldedCount;
     private int playerCount;
@@ -35,8 +33,16 @@ public class Round {
         System.out.println("The small blind is " + newPlayers[1].toString());
         System.out.println("The big blind is " + newPlayers[2].toString());
 
-        newPlayers[newPlayers.length - 1].personalPotValue += Constants.bigBlind;
-        newPlayers[newPlayers.length - 2].personalPotValue += Constants.smallBlind;
+        // potVal += Constants.smallBlind + Constants.bigBlind;
+
+        // newPlayers[1].personalPotValue += Constants.smallBlind;
+        // newPlayers[2].personalPotValue += Constants.bigBlind;
+
+        newPlayers[1].call(Constants.smallBlind);
+        newPlayers[2].call(Constants.bigBlind);
+
+        // newPlayers[1].personalPotValue += Constants.smallBlind;
+        // newPlayers[2].personalPotValue += Constants.bigBlind;
 
         if (roundNumber == 0) {
             for (int x = 0; x != 3; x++) {
@@ -49,9 +55,13 @@ public class Round {
         }
 
         for (int i = 0; i < 4; i++) {
-            currentCycle = new Cycle(foldedCount, playerCount, newPlayers, roundNumber);
+            currentCycle = new Cycle(foldedCount, playerCount, newPlayers, roundNumber, i);
+            if (i == 3) {
+                currentCycle.gameOver = true;
+            }
             if (currentCycle.gameOver) {
-                System.out.println(currentCycle.winner.toString() + " wins $" + potVal);
+                showDown();
+                // System.out.println(currentCycle.winner.toString() + " wins $" + potVal);
                 break;
             }
             dealer.showCards(i);
@@ -59,15 +69,18 @@ public class Round {
             potVal += currentCycle.getRoundPot();
             System.out.println("The pot is $" + potVal);
             for (Player player : Game.players) {
-                if (player.folded = false) {
+                if (!player.folded) {
                     System.out.println(player.toString() + " has $" + player.getMoney());
+                    player.personalPotValue = 0;
                 }
             }
             foldedCount = currentCycle.getFoldedCount();
             System.out.println();
-            // System.out.println(Constants.blankLine);
 
         }
+
+        System.out.println();
+
         Player temp = newPlayers[0];
         for (int j = 1; j <= newPlayers.length - 1; j++) {
             newPlayers[j - 1] = newPlayers[j];
@@ -78,6 +91,19 @@ public class Round {
     private void resetFolded() {
         for (Player player : Game.players) {
             player.folded = false;
+        }
+    }
+
+    public void showDown() {
+        System.out.println(Constants.blankLine);
+        Player winner = Game.players[0];
+        for (Player p : Game.players) {
+            double handValue = p.getHand().valueOfHand(p);
+            System.out.println(p.toString() + "'s Hand Value: " + handValue);
+            if (handValue > winner.getHand().valueOfHand(winner)) {
+                winner = p;
+            }
+            System.out.println("Winner: " + winner.toString());
         }
     }
 }

@@ -1,4 +1,3 @@
-package Poker;
 import java.util.Random;
 
 public class Card {
@@ -7,6 +6,7 @@ public class Card {
     private int number;
     private Face face;
     private boolean isFace;
+    private int playerHash;
     // private String[] suits = { "Hearts", "Diamonds", "Clubs", "Spades" };
     public enum Suit {
         SPADES,
@@ -26,6 +26,8 @@ public class Card {
 
     /** Specific Card */
     public Card(Suit suit, int number) {
+        // playerHash = playerHashCode;
+
         this.suit = suit;
         this.number = number;
         if (number > 10) {
@@ -97,5 +99,22 @@ public class Card {
             default:
                 return null;
         }
+    }
+
+    public int getPlayerHash() {
+        return playerHash;
+    }
+
+    public void setPlayerHash(int playerHash) {
+        this.playerHash = playerHash;
+    }
+
+    public Player getPlayer() {
+        for (Player player : Game.players) {
+            if (player.hashCode() == playerHash) {
+                return player;
+            }
+        }
+        return new Player("Dealer");
     }
 }
