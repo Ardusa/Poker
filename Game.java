@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.Vector;
 
 public class Game {
     public static Deck deck;
@@ -7,9 +6,7 @@ public class Game {
     private static int numberOfPlayers;
     public static Player[] players;
     private static Game instance;
-    public boolean testMode;
-    private static int i = 0;
-
+    private static int roundNumber = 0;
 
     public static Game getInstance() {
         if (instance == null) {
@@ -18,58 +15,31 @@ public class Game {
         return instance;
     }
 
-
     public static void main(String[] args) {
         clearScreen();
         deck = Deck.getInstance();
         scanner = new Scanner(System.in);
-        numberOfPlayers = getPlayers();
 
-        if (numberOfPlayers < 0 || numberOfPlayers > 8) {
-            System.out.println("Dealer.Dealer:31\tError: Invalid Number of Players");
-            numberOfPlayers = getPlayers();
-        }
-
-        if (numberOfPlayers == 1) {
-            System.out.println();
-            System.out.println("Test mode");
-            System.out.println("Everyones passwords is '1'");
-            numberOfPlayers = 4;
-            players = new Player[numberOfPlayers];
-            for (int i = 0; i < numberOfPlayers; i++) {
-                players[i] = new Player("Player " + (i + 1));
-                players[i].setPassword("1");
-            }
-
-            // players[0] = new Player("Player 1");
-            // players[0].setPassword("1");
-            // players[1] = new Player("Player 2");
-            // players[1].setPassword("1");
-            // players[2] = new Player("Player 3");
-            // players[2].setPassword("1");
-        } else {
-            players = new Player[numberOfPlayers];
-            for (int i = 0; i < numberOfPlayers; i++) {
-                System.out.print("Enter player #" + (i + 1) + " name: ");
-                String name = scanner.next();
-                players[i] = new Player(name);
-                players[i].setPassword();
-            }
-        }
-
+        setNumberOfPlayers(Constants.isDebug);
 
         while (true) {
             System.out.println();
             System.out.println(Constants.blankLine);
+            new Round(roundNumber);
             System.out.print("Ready to deal? (press any key other than 'n' to keep playing): ");
             String input = scanner.next().toLowerCase();
             System.out.println();
             if (input.equals("n")) {
-                // TODO: Establish a winner
+                System.out.println("Thanks for playing!");
+                for (Player player : players) {
+                    double winnings = player.getMoney() - Constants.startingMoney;
+                    System.out.println(player.toString() + " went " + ((winnings > 0) ? "positive" : "negative") + " $"
+                            + winnings);
+                }
                 break;
             }
-            new Round(i);
-            i++;
+
+            roundNumber++;
         }
     }
 
@@ -83,23 +53,79 @@ public class Game {
         try {
             x = scanner.nextInt();
         } catch (Exception e) {
-            System.out.println("Dealer.Dealer:31\tError: Too many people");
+            System.out.println("Dealer.Dealer:31\tError: Invalid Number of Players");
             x = getPlayers();
         }
         return x;
     }
 
-    public Player whoWon() {
-        Vector<Hand> hands = new Vector<Hand>();
-        // Hand[] hands = new Hand[Game.getInstance().getNumberOfPlayers()];
-        for (Player players : players) {
-            hands.add(players.getHand());
+    public void whoWon() {
+        // Vector<Hand> hands = new Vector<Hand>();
+        // for (Player players : players) {
+        // hands.add(players.getHand());
+        // }
+        // return null;
+
+        for (Player player : players) {
+            System.out.println(player.toString() + "'s Value: " + player.getHandValue().getValue());
+            System.out.println(player.getHandValue().getHandStats());
         }
-        return null;
+        // return null;
     }
 
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+        // System.out.println("\n\nSupposed to Clear Screen\n\n");
+    }
+
+    public static void setNames() {
+        for (int i = 0; i < numberOfPlayers; i++) {
+            System.out.print("Enter player #" + (i + 1) + " name: ");
+            String name = scanner.next();
+            if (name.equals("Dealer")) {
+                System.out.println("Dealer.Dealer:31\tError: Invalid Name");
+                setNames();
+            }
+
+            if (name.equals("")) {
+                System.out.println("Dealer.Dealer:31\tError: Invalid Name");
+                setNames();
+            }
+
+            players[i] = new Player(name);
+            players[i].setPassword();
+        }
+    }
+
+    public static void setNumberOfPlayers(boolean testMode) {
+        if (testMode) {
+            System.out.println();
+            System.out.println("Test mode");
+            System.out.println("Everyones passwords is '1'");
+            numberOfPlayers = 4;
+            players = new Player[numberOfPlayers];
+            for (int i = 0; i < numberOfPlayers; i++) {
+                players[i] = new Player("Player " + (i + 1));
+                players[i].setPassword("1");
+            }
+
+        }
+
+        else {
+            numberOfPlayers = getPlayers();
+            if (numberOfPlayers < 3 || numberOfPlayers > 8) {
+                System.out.println(Constants.blankLine);
+                System.out.println("Dealer.Dealer:31\tError: Invalid Number of Players");
+                System.out.println(Constants.blankLine);
+                setNumberOfPlayers(testMode);
+            }
+
+            else {
+                players = new Player[numberOfPlayers];
+                setNames();
+            }
+
+        }
     }
 }

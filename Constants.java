@@ -1,6 +1,9 @@
 import java.util.Vector;
 
 public class Constants {
+    /** Set accordingly */
+    public final static boolean isDebug = false;
+
     public final static double startingMoney = 10 * 100;
     public final static double bigBlind = startingMoney / 100;
     public final static double smallBlind = bigBlind / 2;
@@ -9,6 +12,7 @@ public class Constants {
     public final static String blankLine = "----------------------------------------------------------------------";
 
     public class handValues {
+
         public final static int royalFlushValue = 10;
         public final static int straightFlushValue = 9;
         public final static int fourOfAKindValue = 8;
@@ -20,7 +24,7 @@ public class Constants {
         public final static int pairValue = 2;
         public final static int highCardValue = 1;
 
-        public final static Vector<Hand.HandValue> handsWithHighCard = new Vector<Hand.HandValue>();
+        public final static Vector<ValueOfHand.HandValue> handsWithHighCard = new Vector<ValueOfHand.HandValue>();
     }
 
 }

@@ -7,7 +7,6 @@ public class Card {
     private Face face;
     private boolean isFace;
     private int playerHash;
-    // private String[] suits = { "Hearts", "Diamonds", "Clubs", "Spades" };
     public enum Suit {
         SPADES,
         CLUBS,
@@ -22,12 +21,8 @@ public class Card {
         ACE
     }
 
-    // private EnumSet<Suit> suits = EnumSet.of(Suit.HEARTS, Suit.DIAMONDS, Suit.CLUBS, Suit.SPADES);
-
     /** Specific Card */
     public Card(Suit suit, int number) {
-        // playerHash = playerHashCode;
-
         this.suit = suit;
         this.number = number;
         if (number > 10) {
@@ -51,7 +46,6 @@ public class Card {
                     break;
             }
         } else {
-            // face = Face.NONE;
             isFace = false;
         }
     }

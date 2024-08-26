@@ -22,7 +22,9 @@ public class Cycle {
         if (cycleNumber == 0) {
             potVal = Constants.bigBlind + Constants.smallBlind;
             callVal = Constants.bigBlind;
-        } else {
+        }
+        
+        else {
             potVal = 0;
             callVal = 0;
         }
@@ -45,11 +47,10 @@ public class Cycle {
                 }
                 
                 if (!players[i].folded && !players[i].isAllIn() && !hasCalled.contains(players[i])) {
-                    System.out.println(Constants.blankLine);
+                    Game.clearScreen();
                     System.out.println(players[i].toString() + "'s Turn");
                     players[i].getAndCheckPW();
                     potVal += playerTurn(players[i]);
-                    System.out.println();
                 }
                 
                 if (players[i].isAllIn()) {
@@ -60,10 +61,10 @@ public class Cycle {
     }
 
     private double playerTurn(Player p) {
-        System.out.println("Call Value: $" + callVal + "\nPot Value: $" + potVal + "\n" + p.toString()
-                + " personal pot value: $" + p.personalPotValue);
+        System.out.println("Call Value: $" + callVal);
+        System.out.println("Pot Value: $" + potVal);
+        System.out.println("Personal Pot Value: $" + p.personalPotValue);
         
-
         if (p.folded) {
             return 0;
         }
@@ -91,7 +92,9 @@ public class Cycle {
                     System.out.println(p.toString() + " checked");
                     return 0;
                 }
+                System.out.println(Constants.blankLine);
                 System.out.println(p.toString() + " called $" + (callVal - p.personalPotValue));
+                System.out.println(Constants.blankLine);
                 return p.call(callVal);
 
             } else if (raise.equals("y")) {
@@ -121,7 +124,7 @@ public class Cycle {
         return playerCount - (agreeCount + foldedCount);
     }
 
-    public double getRoundPot() {
+    public double getPot() {
         return potVal;
     }
 
